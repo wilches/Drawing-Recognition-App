@@ -1,6 +1,11 @@
 // importing draw module
 const draw = require("../common/draw.js");
 
+const {createCanvas} = require("canvas");
+const canvas = createCanvas(400,400);
+const ctx = canvas.getContext("2d");
+
+
 const constants = {};
 
 constants.DATA_DIR = "../data";
@@ -51,6 +56,7 @@ fs.writeFileSync(constants.SAMPLES, JSON.stringify(samples));
 
 // The generateImageFile function takes two arguments: outFile and paths. The outFile is the path to the file that will be generated. The paths argument is an array of paths. The function draws the paths to the canvas and then converts the canvas to a buffer. The buffer is then written to the outFile.
 function generateImageFile(outFile, paths) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   draw.paths(ctx, paths);
 
   const buffer = canvas.toBuffer("image/png");
