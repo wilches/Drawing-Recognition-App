@@ -1,23 +1,15 @@
 // importing draw module
 const draw = require("../common/draw.js");
+const constants = require("../common/constants.js");
+const utils = require("../common/utils.js");
 
 const {createCanvas} = require("canvas");
 const canvas = createCanvas(400,400);
 const ctx = canvas.getContext("2d");
 
 
-const constants = {};
-
-constants.DATA_DIR = "../data";
-constants.RAW_DIR = constants.DATA_DIR + "/raw";
-constants.DATASET_DIR = constants.DATA_DIR + "/dataset";
-constants.JSON_DIR = constants.DATASET_DIR + "/json";
-constants.IMG_DIR = constants.DATASET_DIR + "/img";
-constants.SAMPLES = constants.DATASET_DIR + "/samples.json";
-
 // Nodejs File System module to read the names of all files in a directory
 const fs = require("fs");
-const draw = require("../common/draw");
 
 //methods that reads the contents of a directory synchronously and returns an array of file names
 const fileNames = fs.readdirSync(constants.RAW_DIR);
@@ -47,12 +39,18 @@ fileNames.forEach((fn) => {
       paths
     );
 
+    utils.printProgress(id, fileNames.length * 8);
+
     id++;
   }
 });
 
 // The samples array is then written to the samples.json file.
 fs.writeFileSync(constants.SAMPLES, JSON.stringify(samples));
+
+fs.writeFileSync(constants.SAMPLES_JS, 
+  "const samples=" + JSON.stringify(samples) +";"
+);
 
 // The generateImageFile function takes two arguments: outFile and paths. The outFile is the path to the file that will be generated. The paths argument is an array of paths. The function draws the paths to the canvas and then converts the canvas to a buffer. The buffer is then written to the outFile.
 function generateImageFile(outFile, paths) {
