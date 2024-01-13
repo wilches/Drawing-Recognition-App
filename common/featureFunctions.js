@@ -1,16 +1,16 @@
-const features = {};
+const featureFunctions = {};
 
-features.getPathCount = (paths) => {
+featureFunctions.getPathCount = (paths) => {
     return paths.length;
 }
 
-features.getPointCount = (paths) => {
+featureFunctions.getPointCount = (paths) => {
     const points = paths.flat();
     return points.length;
 }
 
 if (typeof module !== "undefined") {
-    module.exports = features;
+    module.exports = featureFunctions;
 }
 
 // arreglar gitignore para que suba este archivo ya que esta en estado de untracked
